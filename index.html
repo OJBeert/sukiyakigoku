@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WAGYU SUKIYAKI 極〜GOKU〜 | 東銀座・築地の最高級A5和牛すき焼き専門店</title>
+  <meta name="description" content="築地駅徒歩3分。厳選されたA5ランク黒毛和牛サーロインのみを使用したすき焼き専門店「極〜GOKU〜」。トリュフ卵かけご飯など、至高の食体験を提供します。">
+  <meta name="keywords" content="すき焼き, 築地, 東銀座, A5和牛, 黒毛和牛, Sukiyaki, Tsukiji, Tokyo, Wagyu">
+
+  <!-- OGP -->
+  <meta property="og:title" content="WAGYU SUKIYAKI 極〜GOKU〜 | 東銀座・築地">
+  <meta property="og:description" content="厳選A5ランク黒毛和牛サーロインを使用した至高のすき焼き。築地の路地裏で味わう贅沢なひととき。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sukiyakigoku.pages.dev/">
+  <meta property="og:image" content="https://sukiyakigoku.pages.dev/assets/img/hero-bg.jpeg">
+  <meta property="og:site_name" content="WAGYU SUKIYAKI 極〜GOKU〜">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/img/hero-logo.jpeg" type="image/jpeg">
+  <link rel="apple-touch-icon" href="assets/img/hero-logo.jpeg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Shippori+Mincho:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:         #f5f0e8;
+      --bg-alt:     #ede6d8;
+      --bg-dark:    #1a1410;
+      --text:       #1a1410;
+      --text-mid:   #4a3f35;
+      --text-light: #7a6e62;
+      --gold:       #8b6914;
+      --gold-mid:   #b8920a;
+      --gold-light: #d4a820;
+      --red:        #7a1c1c;
+      --rule:       rgba(139,105,20,0.35);
+      --border:     rgba(139,105,20,0.18);
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--text); font-family:'Noto Serif JP',serif; overflow-x:hidden; padding-bottom:100px; }
+
+    /* ─ NAV ─ */
+    #nav {
+      position:fixed; top:0; left:0; right:0; z-index:900;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 2vw; height:64px;
+      background:rgba(245,240,232,0.95);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--border);
+      flex-wrap:nowrap;
+      gap:.5rem;
+    }
+    /* hamburger + lang */
+    .nav-left { display:flex; align-items:center; gap:.8rem; min-width:0; overflow:hidden; }
+    .hamburger {
+      display:flex; flex-direction:column; justify-content:center; gap:5px;
+      width:36px; height:36px; cursor:pointer; background:none; border:none;
+      padding:4px; flex-shrink:0;
+    }
+    .hamburger span {
+      display:block; width:22px; height:1.5px;
+      background:var(--text); transition:all .35s;
+    }
+    .hamburger.open span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
+
+    /* drawer */
+    .drawer {
+      position:fixed; top:64px; left:0; bottom:0; width:280px;
+      background:rgba(245,240,232,0.98);
+      backdrop-filter:blur(12px);
+      border-right:1px solid var(--border);
+      transform:translateX(-100%);
+      transition:transform .4s cubic-bezier(.4,0,.2,1);
+      z-index:850;
+      display:flex; flex-direction:column;
+      padding:2.5rem 2rem;
+    }
+    .drawer.open { transform:translateX(0); }
+    .drawer-overlay {
+      position:fixed; inset:0; top:64px; background:rgba(26,20,16,0.35);
+      opacity:0; pointer-events:none; transition:opacity .4s; z-index:840;
+    }
+    .drawer-overlay.open { opacity:1; pointer-events:all; }
+    .drawer-nav { list-style:none; margin-bottom:2.5rem; }
+    .drawer-nav li { border-bottom:1px solid rgba(26,20,16,0.08); }
+    .drawer-nav a {
+      display:block; padding:1rem 0;
+      font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-style:italic;
+      letter-spacing:0.22em; text-transform:uppercase;
+      color:var(--text-mid); text-decoration:none; transition:color .25s;
+    }
+    .drawer-nav a:hover { color:var(--gold); }
+    .drawer-label {
+      font-family:'Cormorant Garamond',serif; font-size:0.65rem;
+      letter-spacing:0.5em; text-transform:uppercase;
+      color:var(--text-light); margin-bottom:1rem;
+    }
+    .lang-btns { display:flex; gap:.6rem; }
+    .lang-btn {
+      font-family:'Cormorant Garamond',serif; font-size:0.82rem;
+      letter-spacing:0.15em; padding:.45rem 1rem;
+      border:1px solid var(--border); background:transparent;
+      color:var(--text-mid); cursor:pointer; transition:all .25s;
+    }
+    .lang-btn.active, .lang-btn:hover {
+      background:var(--text); color:var(--bg); border-color:var(--text);
+    }
+    .drawer-reserve {
+      margin-top:auto;
+      display:block; text-align:center;
+      padding:.9rem 1rem;
+      background:var(--text); color:var(--bg);
+      font-family:'Cormorant Garamond',serif; font-style:italic;
+      font-size:.9rem; letter-spacing:.2em;
+      text-decoration:none; transition:background .25s;
+    }
+    .drawer-reserve:hover { background:var(--text-mid); }
+
+    .nav-logo { font-family:'Shippori Mincho',serif; font-weight:800; font-size:clamp(0.62rem, 1.8vw, 0.88rem); color:var(--text); letter-spacing:0.04em; text-decoration:none; white-space:nowrap; }
+    .nav-links { display:flex; list-style:none; gap:2rem; }
+    .nav-links a { font-family:'Cormorant Garamond',serif; font-size:0.8rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--text-mid); text-decoration:none; transition:color .25s; }
+    .nav-links a:hover { color:var(--gold); }
+    .nav-right { display:flex; align-items:center; gap:1rem; }
+    .nav-ig { display:flex; align-items:center; color:var(--text-mid); transition:color .25s; }
+    .nav-ig:hover { color:var(--gold); }
+    .nav-ig svg { width:18px; height:18px; fill:currentColor; }
+    .nav-btn { font-family:'Cormorant Garamond',serif; font-size:0.78rem; font-style:italic; letter-spacing:0.2em; color:var(--text); border:1px solid var(--text); padding:.42rem 1.2rem; text-decoration:none; transition:all .25s; white-space:nowrap; }
+    .nav-btn:hover { background:var(--text); color:var(--bg); }
+
+    /* ─ HERO ─ */
+    #hero {
+      position:relative; height:100svh; min-height:620px;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden;
+    }
+    .hero-bg {
+      position:absolute; inset:0;
+      background-image: url("assets/img/hero-bg.jpeg");
+      background-size:cover; background-position:center 30%;
+    }
+    .hero-overlay {
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(15,10,5,0.68) 0%, rgba(15,10,5,0.55) 40%, rgba(15,10,5,0.80) 100%);
+    }
+    .hero-content { position:relative; z-index:2; text-align:center; padding:0 1.5rem; }
+    .hero-logo-img {
+      width: clamp(160px, 28vw, 280px);
+      margin: 0 auto 2rem;
+      background: #ffffff;
+      mix-blend-mode: normal;
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.6));
+    }
+    .hero-eyebrow { font-family:'Cormorant Garamond',serif; font-size:clamp(.65rem,1vw,.85rem); letter-spacing:.55em; text-transform:uppercase; color:rgba(245,240,232,0.75); margin-bottom:1.2rem; animation:fadeUp 1.2s .1s both; }
+    .hero-rule { width:60px; height:1px; background:linear-gradient(90deg,transparent,rgba(245,240,232,0.6),transparent); margin:1.5rem auto; animation:fadeUp 1.2s .5s both; }
+    .hero-sub { font-size:clamp(.8rem,1.3vw,1rem); font-weight:400; color:rgba(245,240,232,1); letter-spacing:.18em; line-height:2.2; animation:fadeUp 1.2s .7s both; text-shadow:0 2px 8px rgba(0,0,0,0.8); }
+    .hero-cta { margin-top:2.5rem; animation:fadeUp 1.2s .9s both; }
+    .hero-scroll { position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); z-index:2; text-align:center; animation:bob 2s infinite; }
+    @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0);opacity:.45;} 50%{transform:translateX(-50%) translateY(7px);opacity:.9;} }
+    .hero-scroll span { display:block; font-size:.58rem; letter-spacing:.45em; color:rgba(245,240,232,0.6); margin-bottom:.5rem; }
+    .hero-scroll-line { width:1px; height:36px; background:linear-gradient(180deg,rgba(245,240,232,0.5),transparent); margin:0 auto; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(28px);} to{opacity:1;transform:translateY(0);} }
+
+    /* ─ BUTTONS ─ */
+    .btn-dark { display:inline-block; font-family:'Cormorant Garamond',serif; font-size:1rem; font-style:italic; letter-spacing:.28em; text-transform:uppercase; color:var(--bg); background:var(--bg-dark); padding:1rem 3.2rem; text-decoration:none; transition:all .3s; border:1px solid var(--bg-dark); }
+    .btn-dark:hover { background:transparent; color:var(--bg-dark); }
+    .btn-dark-hero { display:inline-block; font-family:'Cormorant Garamond',serif; font-size:1rem; font-style:italic; letter-spacing:.28em; text-transform:uppercase; color:var(--bg-dark); background:var(--bg); padding:1rem 3.2rem; text-decoration:none; transition:all .3s; border:1px solid var(--bg); }
+    .btn-dark-hero:hover { background:transparent; color:var(--bg); }
+    .btn-outline-dark { display:inline-block; font-family:'Cormorant Garamond',serif; font-size:1rem; font-style:italic; letter-spacing:.28em; text-transform:uppercase; color:var(--text); background:transparent; border:1px solid var(--text); padding:1rem 3.2rem; text-decoration:none; transition:all .3s; }
+    .btn-outline-dark:hover { background:var(--text); color:var(--bg); }
+
+    /* ─ SECTION BASE ─ */
+    .sec-pad { padding:clamp(5rem,9vw,8rem) clamp(1.5rem,5vw,4rem); }
+    .inner { max-width:1160px; margin:0 auto; padding:0 clamp(1.5rem,5vw,4rem); }
+    .label { font-family:'Cormorant Garamond',serif; font-size:.72rem; letter-spacing:.55em; text-transform:uppercase; color:var(--gold); margin-bottom:1.2rem; }
+    .sec-title { font-family:'Shippori Mincho',serif; font-size:clamp(1.6rem,3.5vw,2.6rem); font-weight:600; line-height:1.65; color:var(--text); }
+    .sec-title em { color:var(--gold-mid); font-style:normal; }
+    .sec-rule { width:44px; height:1px; background:var(--rule); margin:1.8rem 0; }
+    .sec-body { font-size:clamp(.85rem,1.2vw,.97rem); font-weight:300; line-height:2.3; color:var(--text-mid); }
+
+    /* ─ BANNER (3-panel) ─ */
+    #banner { background:var(--bg-dark); }
+    .banner-grid {
+      display:grid; grid-template-columns:repeat(3,1fr); height:clamp(220px,35vw,480px);
+    }
+    .banner-panel { overflow:hidden; position:relative; }
+    .banner-panel img { width:100%; height:100%; object-fit:cover; transition:transform .6s; }
+    .banner-panel:hover img { transform:scale(1.04); }
+    .banner-text {
+      position:absolute; bottom:0; left:0; right:0;
+      padding:1.5rem 1.2rem 1.2rem;
+      background:linear-gradient(0deg,rgba(15,10,5,0.75) 0%,transparent 100%);
+    }
+    .banner-text p { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(.75rem,1.2vw,1rem); letter-spacing:.15em; color:rgba(245,240,232,0.85); }
+
+    /* ─ ABOUT ─ */
+    #about { background:var(--bg); }
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(3rem,6vw,7rem); align-items:center; }
+    .about-images { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
+    .about-img { aspect-ratio:3/4; overflow:hidden; }
+    .about-img img { width:100%; height:100%; object-fit:cover; transition:transform .5s; }
+    .about-img:hover img { transform:scale(1.04); }
+
+    /* ─ DIVIDER IMAGE ─ */
+    .full-img { width:100%; height:clamp(200px,28vw,400px); overflow:hidden; position:relative; }
+    .full-img img { width:100%; height:100%; object-fit:cover; object-position:center 40%; }
+    .full-img-overlay {
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(15,10,5,0.35);
+    }
+    .full-img-overlay span { font-family:'Cormorant Garamond',serif; font-size:clamp(.9rem,2vw,1.5rem); letter-spacing:.6em; color:rgba(245,240,232,0.7); font-style:italic; }
+
+    /* ─ RESERVE ─ */
+    #reserve { background:var(--bg-alt); text-align:center; }
+    .reserve-inner { max-width:680px; margin:0 auto; }
+    .reserve-inner .sec-rule { margin:1.8rem auto; }
+    .reserve-btns { display:flex; gap:1.2rem; justify-content:center; flex-wrap:wrap; margin-top:2.5rem; }
+
+    /* ─ MENU ─ */
+    #menu { background:var(--bg); }
+    .menu-layout { display:grid; grid-template-columns:1fr 1fr; gap:clamp(3rem,6vw,7rem); align-items:start; }
+    .menu-visual { position:sticky; top:90px; }
+    .menu-main-img { width:100%; aspect-ratio:4/5; overflow:hidden; }
+    .menu-main-img img { width:100%; height:100%; object-fit:cover; }
+    .menu-includes { margin-top:.75rem; padding:1.5rem 2rem; background:var(--bg-alt); border-left:2px solid var(--gold); }
+    .menu-includes-label { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.78rem; letter-spacing:.15em; color:var(--gold-mid); margin-bottom:.8rem; }
+    .menu-includes ul { list-style:none; }
+    .menu-includes li { font-size:.82rem; color:var(--text-mid); padding:.28rem 0; font-weight:300; display:flex; align-items:center; gap:.6rem; }
+    .menu-includes li::before { content:''; width:4px; height:4px; background:var(--gold); border-radius:50%; flex-shrink:0; }
+    .menu-cards { display:flex; flex-direction:column; gap:1px; }
+    .menu-card { background:var(--bg-alt); border:1px solid var(--border); padding:2rem 2.2rem; display:flex; align-items:center; justify-content:space-between; gap:1.5rem; transition:border-color .3s,background .3s; position:relative; }
+    .menu-card:hover { border-color:rgba(139,105,20,0.45); background:rgba(200,170,100,0.1); }
+    .menu-card.featured { border-color:rgba(139,105,20,0.35); }
+    .menu-card.featured::before { content:attr(data-badge); position:absolute; top:0; right:1.5rem; background:var(--red); color:#f5f0e8; font-size:.6rem; letter-spacing:.1em; padding:.25rem .7rem; }
+    .menu-gram { font-family:'Cormorant Garamond',serif; font-size:2rem; font-style:italic; color:var(--gold-mid); line-height:1; }
+    .menu-name { font-size:.82rem; color:var(--text-mid); margin-top:.3rem; letter-spacing:.05em; }
+    .menu-price { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:300; color:var(--text); text-align:right; white-space:nowrap; }
+    .menu-price small { font-size:.7rem; color:var(--text-light); display:block; margin-top:.2rem; font-family:'Noto Serif JP',serif; }
+
+    /* ─ FEATURES ─ */
+    #features { background:var(--bg-dark); color:#f5f0e8; }
+    #features .sec-title { color:#f5f0e8; }
+    #features .sec-body { color:rgba(245,240,232,0.7); }
+    #features .label { color:rgba(200,164,90,0.85); }
+    .features-header { text-align:center; margin-bottom:4rem; }
+    .features-header .sec-rule { margin:1.8rem auto; background:rgba(200,164,90,0.4); }
+    .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(245,240,232,0.06); }
+    .feat { background:var(--bg-dark); padding:3rem 2rem; text-align:center; transition:background .3s; position:relative; overflow:hidden; }
+    .feat::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(200,164,90,0.6),transparent); transform:scaleX(0); transition:transform .4s; }
+    .feat:hover { background:rgba(139,105,20,0.08); }
+    .feat:hover::after { transform:scaleX(1); }
+    .feat-num { font-family:'Cormorant Garamond',serif; font-size:3rem; font-style:italic; color:rgba(200,164,90,0.15); line-height:1; margin-bottom:.5rem; }
+    .feat-photo { width:100%; aspect-ratio:4/3; overflow:hidden; margin-bottom:1.5rem; }
+    .feat-photo img { width:100%; height:100%; object-fit:cover; transition:transform .5s; }
+    .feat:hover .feat-photo img { transform:scale(1.05); }
+    .feat h3 { font-family:'Shippori Mincho',serif; font-size:1rem; color:rgba(200,164,90,0.9); margin-bottom:.9rem; }
+    .feat p { font-size:.82rem; color:rgba(245,240,232,0.65); line-height:2; font-weight:300; }
+
+    /* ─ INSTAGRAM ─ */
+    #instagram { background:var(--bg-alt); text-align:center; }
+    .ig-inner { max-width:600px; margin:0 auto; }
+    .ig-inner .sec-rule { margin:1.8rem auto; }
+    .ig-link { display:inline-flex; align-items:center; gap:.9rem; margin-top:2.5rem; padding:1rem 2.5rem; border:1px solid var(--border); color:var(--text); text-decoration:none; font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-style:italic; letter-spacing:.22em; transition:all .3s; }
+    .ig-link:hover { border-color:var(--gold); color:var(--gold); background:rgba(139,105,20,0.05); }
+    .ig-link svg { width:22px; height:22px; fill:currentColor; flex-shrink:0; }
+    .ig-handle { display:block; margin-top:1rem; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.8rem; letter-spacing:.3em; color:var(--text-light); }
+
+    /* ─ ACCESS ─ */
+    #access { background:var(--bg); }
+    .access-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(3rem,6vw,7rem); align-items:start; }
+    .info-table { width:100%; border-collapse:collapse; }
+    .info-table tr { border-bottom:1px solid rgba(26,20,16,0.08); }
+    .info-table tr:last-child { border-bottom:none; }
+    .info-table th { width:80px; padding:1.1rem 1rem 1.1rem 0; font-family:'Cormorant Garamond',serif; font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); font-weight:400; vertical-align:top; text-align:left; }
+    .info-table td { padding:1.1rem 0; font-size:.88rem; color:var(--text-mid); font-weight:300; line-height:1.9; vertical-align:top; }
+    .info-table td a { color:var(--gold-mid); text-decoration:none; }
+    .map-btn { display:block; margin-top:2rem; padding:1rem; border:1px solid var(--border); text-align:center; color:var(--gold-mid); font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.9rem; letter-spacing:.2em; text-decoration:none; transition:all .3s; }
+    .map-btn:hover { border-color:var(--gold); background:rgba(139,105,20,0.05); }
+    .reserve-box { background:var(--bg-alt); border:1px solid var(--border); padding:3rem; }
+    .reserve-box h3 { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-style:italic; color:var(--gold-mid); margin-bottom:1.2rem; }
+    .reserve-box p { font-size:.85rem; color:var(--text-mid); font-weight:300; line-height:2.1; margin-bottom:2rem; }
+    .reserve-box .btn-dark, .reserve-box .btn-outline-dark { display:block; text-align:center; margin-bottom:1rem; padding:.95rem 1rem; }
+    .reserve-box .note { font-size:.72rem; color:var(--text-light); line-height:2; margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid rgba(26,20,16,0.1); }
+
+    /* ─ FOOTER ─ */
+    footer { background:var(--bg-dark); color:#f5f0e8; border-top:1px solid rgba(245,240,232,0.08); padding:4rem clamp(1.5rem,5vw,4rem) 3rem; }
+    .footer-inner { max-width:1160px; margin:0 auto; display:grid; grid-template-columns:1fr auto; gap:3rem; align-items:start; margin-bottom:3rem; }
+    .footer-logo { font-family:'Shippori Mincho',serif; font-size:1.2rem; font-weight:600; color:rgba(245,240,232,0.9); margin-bottom:.4rem; }
+    .footer-sub { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.8rem; color:rgba(245,240,232,0.4); letter-spacing:.2em; margin-bottom:1.5rem; }
+    .footer-ig { display:inline-flex; align-items:center; gap:.5rem; color:rgba(245,240,232,0.55); text-decoration:none; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.85rem; letter-spacing:.15em; transition:color .25s; }
+    .footer-ig:hover { color:rgba(200,164,90,0.9); }
+    .footer-ig svg { width:16px; height:16px; fill:currentColor; }
+    .footer-links { display:flex; flex-direction:column; gap:.5rem; text-align:right; }
+    .footer-links a { font-family:'Cormorant Garamond',serif; font-size:.78rem; letter-spacing:.18em; color:rgba(245,240,232,0.4); text-decoration:none; transition:color .25s; }
+    .footer-links a:hover { color:rgba(200,164,90,0.85); }
+    .footer-bottom { max-width:1160px; margin:0 auto; padding-top:2rem; padding-bottom:5rem; border-top:1px solid rgba(245,240,232,0.07); display:flex; flex-direction:column; align-items:center; gap:.6rem; text-align:center; }
+    .footer-copy { font-size:.68rem; color:rgba(245,240,232,0.3); letter-spacing:.04em; text-align:center; word-break:break-word; max-width:100%; padding:0 1rem; }
+
+    /* ─ FLOATING ─ */
+    .floating { position:fixed; bottom:1.5rem; right:1.8rem; z-index:200; background:var(--bg-dark); color:var(--bg); font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.85rem; letter-spacing:.18em; padding:.85rem 1.8rem; text-decoration:none; box-shadow:0 6px 28px rgba(26,20,16,0.3); transition:all .3s; animation:slideR .8s 1.5s both; border:1px solid rgba(245,240,232,0.15); }
+    .floating:hover { background:var(--text-mid); transform:translateY(-3px); }
+    @keyframes slideR { from{opacity:0;transform:translateX(60px);} to{opacity:1;transform:translateX(0);} }
+
+    /* ─ RESPONSIVE ─ */
+    @media(max-width:900px){
+      .about-grid,.menu-layout,.access-grid { grid-template-columns:1fr; }
+      .features-grid { grid-template-columns:1fr 1fr; }
+      .menu-visual { position:static; }
+      .footer-inner { grid-template-columns:1fr; }
+      .footer-links { text-align:left; }
+      .nav-links { display:none; }
+      .banner-grid { grid-template-columns:1fr; height:auto; }
+      .banner-panel { height:clamp(200px,40vw,320px); }
+    }
+    @media(max-width:600px){
+      .features-grid { grid-template-columns:1fr; }
+      .about-images { grid-template-columns:1fr; }
+      .footer-bottom { flex-direction:column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- FLOATING -->
+<a href="https://www.tablecheck.com/en/wagyusukiyaki-goku" target="_blank" class="floating">ご予約 / Reserve →</a>
+
+<!-- DRAWER -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <ul class="drawer-nav">
+    <li><a href="#about"   onclick="closeDrawer()">About</a></li>
+    <li><a href="#menu"    onclick="closeDrawer()">Menu</a></li>
+    <li><a href="#features" onclick="closeDrawer()">Features</a></li>
+    <li><a href="#access"  onclick="closeDrawer()">Access</a></li>
+    <li><a href="#reserve" onclick="closeDrawer()">Reserve</a></li>
+  </ul>
+  <p class="drawer-label">Language</p>
+  <div class="lang-btns">
+    <button class="lang-btn active" id="btnJa" onclick="setLang('ja')">日本語</button>
+    <button class="lang-btn"        id="btnEn" onclick="setLang('en')">English</button>
+  </div>
+  <a href="https://www.tablecheck.com/en/wagyusukiyaki-goku" target="_blank" class="drawer-reserve" style="margin-top:2rem;">
+    ご予約 / Reserve
+  </a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-left">
+    <button class="hamburger" id="hamburger" onclick="toggleDrawer()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="nav-logo" href="#">WAGYU SUKIYAKI 極〜GOKU〜</a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#access">Access</a></li>
+    <li><a href="#reserve">Reserve</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://www.instagram.com/goku_tsukiji" target="_blank" class="nav-ig" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <a href="https://www.tablecheck.com/en/wagyusukiyaki-goku" target="_blank" class="nav-btn">Reserve</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <img class="hero-logo-img" src="assets/img/hero-logo.jpeg" alt="WAGYU SUKIYAKI 極">
+    <p class="hero-eyebrow">Higashi-Ginza · Tsukiji · Tokyo</p>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">厳選 A5 ランク黒毛和牛サーロイン<br>築地の路地裏で出会う、至高のすき焼き体験</p>
+    
+  </div>
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- BANNER 3-panel -->
+<div id="banner">
+  <div class="banner-grid">
+    <div class="banner-panel">
+      <img src="assets/img/banner-1.jpeg" alt="A5和牛すき焼き">
+      <div class="banner-text"><p>Melt-in-Your-Mouth Luxury</p></div>
+    </div>
+    <div class="banner-panel">
+      <img src="assets/img/banner-2.jpeg" alt="A5和牛サーロイン">
+      <div class="banner-text"><p>A5 Wagyu Sirloin</p></div>
+    </div>
+    <div class="banner-panel">
+      <img src="assets/img/banner-3.jpeg" alt="GOKUセット全景">
+      <div class="banner-text"><p>The Full Experience</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-pad inner">
+    <div class="about-grid">
+      <div class="about-images">
+        <div class="about-img"><img src="assets/img/banner-2.jpeg" alt="A5和牛サーロイン"></div>
+        <div class="about-img" style="margin-top:2rem;"><img src="assets/img/about-2.jpeg" alt="TKG"></div>
+      </div>
+      <div>
+        <p class="label" id="about-label">About Us</p>
+        <h2 class="sec-title" id="about-title">築地で生まれた、<br><em>すき焼き</em>の新しい形</h2>
+        <div class="sec-rule"></div>
+        <p class="sec-body" id="about-p1">東銀座・築地の静かな路地に佇む当店は、厳選された A5 ランク黒毛和牛サーロインのすき焼き専門店です。トップシェフが丹精込めて仕上げる、妥協なき一皿。</p>
+        <br>
+        <p class="sec-body" id="about-p2">白飯・味噌汁・卵はおかわり自由。さらに特製トリュフ卵かけご飯が付く、ここだけでしか味わえない唯一無二の体験をお届けします。</p>
+        <br>
+        <p class="sec-body" id="about-q" style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold-mid);font-size:1.05rem;">"Enjoy the finest A5 Wagyu Sirloin Sukiyaki in Tsukiji"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL DIVIDER IMAGE -->
+<div class="full-img">
+  <img src="assets/img/banner-1.jpeg" alt="すき焼き">
+  <div class="full-img-overlay"><span>A 5 &nbsp; W A G Y U &nbsp; S I R L O I N</span></div>
+</div>
+
+<!-- RESERVE -->
+<section id="reserve">
+  <div class="sec-pad inner">
+    <div class="reserve-inner">
+      <p class="label" id="res-label">Reservation</p>
+      <h2 class="sec-title" id="res-title">予約する</h2>
+      <div class="sec-rule"></div>
+      <p class="sec-body" id="res-body">席数限定のカウンタースタイルのため、ご予約なしではご入店いただけない場合がございます。特別なお食事のために、事前のご予約を強くおすすめいたします。</p>
+      <div class="reserve-btns">
+        <a href="https://www.tablecheck.com/en/wagyusukiyaki-goku" target="_blank" class="btn-dark" id="res-btn1">オンラインで予約する</a>
+        <a href="tel:03-6684-1095" class="btn-outline-dark" id="res-btn2">📞 &nbsp;03-6684-1095</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="sec-pad inner">
+    <div class="menu-layout">
+      <div class="menu-visual">
+        <div class="menu-main-img"><img src="assets/img/banner-3.jpeg" alt="GOKUメニューセット"></div>
+        <div class="menu-includes">
+          <p class="menu-includes-label">All sets include</p>
+          <ul>
+            <li>白飯（おかわり自由）</li>
+            <li>味噌汁（おかわり自由）</li>
+            <li>卵（おかわり自由）</li>
+            <li>トリュフ卵かけご飯</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <p class="label" id="menu-label">Our Menu</p>
+        <h2 class="sec-title" id="menu-title">メニュー</h2>
+        <div class="sec-rule"></div>
+        <p class="sec-body" id="menu-body" style="margin-bottom:2.5rem;">A5 ランク黒毛和牛サーロインを 4 つのサイズからお選びいただけます。すべてのセットにご飯・味噌汁・卵おかわり自由と特製トリュフ TKG が付きます。</p>
+        <div class="menu-cards">
+          <div class="menu-card">
+            <div><div class="menu-gram">100g</div><div class="menu-name" id="mname0">A5 和牛サーロイン 100g セット</div></div>
+            <div class="menu-price">¥4,600<small class="menu-tax" id="mtax0">税込</small></div>
+          </div>
+          <div class="menu-card featured" id="featured-card" data-badge="人気">
+            <div><div class="menu-gram">150g</div><div class="menu-name" id="mname1">A5 和牛サーロイン 150g セット</div></div>
+            <div class="menu-price">¥5,400<small class="menu-tax" id="mtax1">税込</small></div>
+          </div>
+          <div class="menu-card">
+            <div><div class="menu-gram">300g</div><div class="menu-name" id="mname2">A5 和牛サーロイン 300g セット</div></div>
+            <div class="menu-price">¥7,800<small class="menu-tax" id="mtax2">税込</small></div>
+          </div>
+          <div class="menu-card">
+            <div><div class="menu-gram">1 lb</div><div class="menu-name" id="mname3">A5 和牛サーロイン 1 ポンドセット（約 450g）</div></div>
+            <div class="menu-price">¥9,200<small class="menu-tax" id="mtax3">税込</small></div>
+          </div>
+        </div>
+        <p id="menu-note" style="font-size:.72rem;color:var(--text-light);margin-top:1.2rem;line-height:1.9;">※ 価格は税込みです。メニューは仕入れ状況により変更になる場合がございます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER 2 -->
+<div class="full-img" style="height:clamp(160px,20vw,300px);">
+  <img src="assets/img/divider-2.jpeg" alt="トリュフTKG" style="object-position:center 20%;">
+  <div class="full-img-overlay"><span>T R U F F L E &nbsp; T K G &nbsp;· &nbsp;極</span></div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="sec-pad inner">
+    <div class="features-header">
+      <p class="label" id="feat-label">Our Features</p>
+      <h2 class="sec-title" id="feat-title">極〜GOKU〜が選ばれる理由</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="features-grid">
+      <div class="feat">
+        <div class="feat-photo"><img src="assets/img/banner-2.jpeg" alt="A5和牛"></div>
+        <div class="feat-num">01</div>
+        <h3>A5 ランク和牛のみ</h3>
+        <p>妥協なく選び抜かれた A5 ランク黒毛和牛サーロインのみを使用。日本最高品質の和牛をリーズナブルな価格でご提供します。</p>
+      </div>
+      <div class="feat">
+        <div class="feat-photo"><img src="assets/img/divider-2.jpeg" alt="トリュフTKG"></div>
+        <div class="feat-num">02</div>
+        <h3>トリュフ卵かけご飯</h3>
+        <p>ここだけの特別メニュー、トリュフ香る卵かけご飯。和牛の旨みとトリュフの芳醇な香りが織りなす唯一無二の味わい。</p>
+      </div>
+      <div class="feat">
+        <div class="feat-photo"><img src="assets/img/banner-3.jpeg" alt="フルセット"></div>
+        <div class="feat-num">03</div>
+        <h3>ご飯・味噌汁おかわり自由</h3>
+        <p>白飯・味噌汁・卵はすべておかわり無料。心ゆくまで A5 和牛すき焼きをご堪能ください。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section id="instagram">
+  <div class="sec-pad inner">
+    <div class="ig-inner">
+      <p class="label" id="ig-label">Instagram</p>
+      <h2 class="sec-title" id="ig-title">最新情報をチェック</h2>
+      <div class="sec-rule"></div>
+      <p class="sec-body" id="ig-body">日々の入荷情報、限定メニュー、お席の空き状況などリアルタイムで発信しています。フォローをお忘れなく。</p>
+      <a href="https://www.instagram.com/goku_tsukiji" target="_blank" class="ig-link">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        <span id="ig-btn-text">@goku_tsukiji をフォローする</span>
+      </a>
+      <span class="ig-handle">instagram.com/goku_tsukiji</span>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESS -->
+<section id="access">
+  <div class="sec-pad inner">
+    <div class="access-grid">
+      <div>
+        <p class="label" id="acc-label">Information</p>
+        <h2 class="sec-title" id="acc-title">店舗情報</h2>
+        <div class="sec-rule"></div>
+        <table class="info-table">
+          <tr><th>住所</th><td>〒104-0045<br>東京都中央区築地 3-17-10<br>BANHOTEL 1F</td></tr>
+          <tr><th>最寄駅</th><td>東京メトロ日比谷線 築地駅 徒歩約 3 分<br>都営大江戸線 築地市場駅 徒歩約 5 分</td></tr>
+          <tr><th>Tel</th><td><a href="tel:03-6684-1095">03-6684-1095</a></td></tr>
+          <tr><th>Hours</th><td>7:00 〜 22:00<br><span style="font-size:.78rem;color:var(--text-light);">年中無休</span></td></tr>
+          <tr><th>予算</th><td>¥4,500〜 / お一人様（税込）</td></tr>
+          <tr><th>言語</th><td>日本語・English 対応</td></tr>
+        </table>
+        <a href="https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E4%B8%AD%E5%A4%AE%E5%8C%BA%E7%AF%89%E5%9C%B03%E4%B8%81%E7%9B%AE17-10+BANHOTEL+1F" target="_blank" class="map-btn">📍 Google Maps で開く →</a>
+      </div>
+      <div class="reserve-box">
+        <h3 id="rb-h3">Reserve a Table</h3>
+        <p id="rb-p">席数限定のカウンタースタイルのため、事前のご予約を強くおすすめしております。オンラインまたはお電話にてご予約ください。</p>
+        <a href="https://www.tablecheck.com/en/wagyusukiyaki-goku" target="_blank" class="btn-dark" id="rb-btn1">オンラインで予約する</a>
+        <a href="tel:03-6684-1095" class="btn-outline-dark" id="rb-btn2">電話で予約 &nbsp;03-6684-1095</a>
+        <p class="note" id="rb-note">※ オンライン予約は 24 時間受付<br>※ 電話受付 7:00〜22:00<br>※ 団体様はお電話にてご相談ください</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">WAGYU SUKIYAKI 極〜GOKU〜</div>
+      <div class="footer-sub">東銀座築地 · Higashi-Ginza Tsukiji</div>
+      <a href="https://www.instagram.com/goku_tsukiji" target="_blank" class="footer-ig">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        @goku_tsukiji
+      </a>
+    </div>
+    <div class="footer-links">
+      <a href="#about">About Us</a>
+      <a href="#menu">Menu</a>
+      <a href="#features">Our Features</a>
+      <a href="#access">Information</a>
+      <a href="https://www.tablecheck.com/en/wagyusukiyaki-goku" target="_blank">Reservations</a>
+      <a href="tel:03-6684-1095">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 WAGYU SUKIYAKI 極〜GOKU〜. All Rights Reserved.</p>
+    <p class="footer-copy">〒104-0045 東京都中央区築地 3-17-10 BANHOTEL 1F &nbsp;|&nbsp; TEL 03-6684-1095</p>
+  </div>
+</footer>
+
+
+<script>
+// ── Drawer ──
+function toggleDrawer(){
+  var d=document.getElementById('drawer');
+  var o=document.getElementById('drawerOverlay');
+  var h=document.getElementById('hamburger');
+  var isOpen=d.classList.toggle('open');
+  o.classList.toggle('open',isOpen);
+  h.classList.toggle('open',isOpen);
+}
+function closeDrawer(){
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+// ── Language Data ──
+var T={
+  ja:{
+    logo:'WAGYU SUKIYAKI 極〜GOKU〜',
+    nav:['About','Menu','Features','Access','Reserve'],
+    navBtn:'Reserve',
+    floatBtn:'ご予約 / Reserve →',
+    heroSub:'厳選 A5 ランク黒毛和牛サーロイン<br>築地の路地裏で出会う、至高のすき焼き体験',
+    heroCta:'予約する / Reserve a Seat',
+    b:['Melt-in-Your-Mouth Luxury','A5 Wagyu Sirloin','The Full Experience'],
+    aboutLabel:'About Us',
+    aboutTitle:'築地で生まれた、<br><em>すき焼き</em>の新しい形',
+    aboutP1:'東銀座・築地の静かな路地に佇む当店は、厳選された A5 ランク黒毛和牛サーロインのすき焼き専門店です。トップシェフが丹精込めて仕上げる、妥協なき一皿。',
+    aboutP2:'白飯・味噌汁・卵はおかわり自由。さらに特製トリュフ卵かけご飯が付く、ここだけでしか味わえない唯一無二の体験をお届けします。',
+    aboutQ:'"Enjoy the finest A5 Wagyu Sirloin Sukiyaki in Tsukiji"',
+    resLabel:'Reservation',resTitle:'予約する',
+    resBody:'席数限定のカウンタースタイルのため、ご予約なしではご入店いただけない場合がございます。特別なお食事のために、事前のご予約を強くおすすめいたします。',
+    resBtn1:'オンラインで予約する',resBtn2:'📞 \u00a003-6684-1095',
+    menuLabel:'Our Menu',menuTitle:'メニュー',
+    menuBody:'A5 ランク黒毛和牛サーロインを 4 つのサイズからお選びいただけます。すべてのセットにご飯・味噌汁・卵おかわり自由と特製トリュフ TKG が付きます。',
+    incLabel:'All sets include',
+    inc:['白飯（おかわり自由）','味噌汁（おかわり自由）','卵（おかわり自由）','トリュフ卵かけご飯'],
+    menuNote:'※ 価格は税込みです。メニューは仕入れ状況により変更になる場合がございます。',
+    menuItems:['A5 和牛サーロイン 100g セット','A5 和牛サーロイン 150g セット','A5 和牛サーロイン 300g セット','A5 和牛サーロイン 1 ポンドセット（約 450g）'],
+    menuTax:'税込',
+    badgeText:'人気',
+    featLabel:'Our Features',featTitle:'極〜GOKU〜が選ばれる理由',
+    feat:[
+      {h:'A5 ランク和牛のみ',p:'妥協なく選び抜かれた A5 ランク黒毛和牛サーロインのみを使用。日本最高品質の和牛をリーズナブルな価格でご提供します。'},
+      {h:'トリュフ卵かけご飯',p:'ここだけの特別メニュー、トリュフ香る卵かけご飯。和牛の旨みとトリュフの芳醇な香りが織りなす唯一無二の味わい。'},
+      {h:'ご飯・味噌汁おかわり自由',p:'白飯・味噌汁・卵はすべておかわり無料。心ゆくまで A5 和牛すき焼きをご堪能ください。'}
+    ],
+    igLabel:'Instagram',igTitle:'最新情報をチェック',
+    igBody:'日々の入荷情報、限定メニュー、お席の空き状況などリアルタイムで発信しています。フォローをお忘れなく。',
+    igBtn:'@goku_tsukiji をフォローする',
+    accLabel:'Information',accTitle:'店舗情報',
+    th:['住所','最寄駅','Tel','Hours','予算','言語'],
+    td:['〒104-0045<br>東京都中央区築地 3-17-10<br>BANHOTEL 1F','東京メトロ日比谷線 築地駅 徒歩約 3 分<br>都営大江戸線 築地市場駅 徒歩約 5 分','<a href="tel:03-6684-1095">03-6684-1095</a>','7:00 〜 22:00<br><span style="font-size:.78rem;color:var(--text-light);">年中無休</span>','¥4,500〜 / お一人様（税込）','日本語・English 対応'],
+    mapBtn:'📍 Google Maps で開く →',
+    rbH3:'Reserve a Table',
+    rbP:'席数限定のカウンタースタイルのため、事前のご予約を強くおすすめしております。オンラインまたはお電話にてご予約ください。',
+    rbBtn1:'オンラインで予約する',rbBtn2:'電話で予約 \u00a003-6684-1095',
+    rbNote:'※ オンライン予約は 24 時間受付<br>※ 電話受付 7:00〜22:00<br>※ 団体様はお電話にてご相談ください',
+    footerSub:'東銀座築地 · Higashi-Ginza Tsukiji',
+    footerLinks:['About Us','Menu','Our Features','Information','Reservations','Contact'],
+    copy1:'© 2026 WAGYU SUKIYAKI 極〜GOKU〜. All Rights Reserved.',
+    copy2:'〒104-0045 東京都中央区築地 3-17-10 BANHOTEL 1F \u00a0|\u00a0 TEL 03-6684-1095'
+  },
+  en:{
+    logo:'WAGYU SUKIYAKI 極〜GOKU〜',
+    nav:['About','Menu','Features','Access','Reserve'],
+    navBtn:'Reserve',
+    floatBtn:'Reserve →',
+    heroSub:'Finest A5 Black Wagyu Sirloin<br>An ultimate sukiyaki experience in Tsukiji',
+    heroCta:'Reserve a Seat',
+    b:['Melt-in-Your-Mouth Luxury','A5 Wagyu Sirloin','The Full Experience'],
+    aboutLabel:'About Us',
+    aboutTitle:'A new way to enjoy<br><em>Sukiyaki</em> in Tsukiji',
+    aboutP1:'Tucked in a quiet alley of Higashi-Ginza and Tsukiji, we specialise in sukiyaki made exclusively with hand-selected A5 Black Wagyu sirloin — crafted with uncompromising care by our top chef.',
+    aboutP2:'Unlimited rice, miso soup, and egg — plus our signature truffle TKG. A one-of-a-kind experience only found here.',
+    aboutQ:'"Enjoy the finest A5 Wagyu Sirloin Sukiyaki in Tsukiji"',
+    resLabel:'Reservation',resTitle:'Make a Reservation',
+    resBody:'We operate a limited-seat counter-style dining room. Walk-ins may be turned away. We strongly recommend reserving your table in advance.',
+    resBtn1:'Reserve Online',resBtn2:'📞 \u00a003-6684-1095',
+    menuLabel:'Our Menu',menuTitle:'Menu',
+    menuBody:'Choose your portion of A5 Black Wagyu sirloin from four sizes. Every set includes unlimited rice, miso soup, egg, and our signature truffle TKG.',
+    incLabel:'All sets include',
+    inc:['Rice (unlimited refills)','Miso soup (unlimited refills)','Egg (unlimited refills)','Truffle TKG'],
+    menuNote:'※ All prices include tax. Menu subject to change based on availability.',
+    menuItems:['A5 Wagyu Sirloin 100g Set','A5 Wagyu Sirloin 150g Set','A5 Wagyu Sirloin 300g Set','A5 Wagyu Sirloin 1 lb Set (approx. 450g)'],
+    menuTax:'Tax incl.',
+    badgeText:'Popular',
+    featLabel:'Our Features',featTitle:'Why Choose GOKU',
+    feat:[
+      {h:'A5 Wagyu Only',p:"We use only the finest A5 Black Wagyu sirloin — Japan's highest grade — at a price that surprises."},
+      {h:'Truffle TKG',p:"Our exclusive truffle tamago kake gohan pairs wagyu richness with the earthy aroma of black truffle. Unmissable."},
+      {h:'Unlimited Rice & Miso',p:'Rice, miso soup and egg are all free-refill. Enjoy your wagyu sukiyaki to the fullest.'}
+    ],
+    igLabel:'Instagram',igTitle:'Follow for Updates',
+    igBody:"Daily beef arrivals, limited menus, and seat availability — all shared in real time. Don't miss a thing.",
+    igBtn:'Follow @goku_tsukiji',
+    accLabel:'Information',accTitle:'Restaurant Info',
+    th:['Address','Nearest','Tel','Hours','Budget','Language'],
+    td:['3-17-10 Tsukiji, BANHOTEL 1F<br>Chuo-ku, Tokyo 104-0045','Tsukiji Stn (Hibiya Line) 3 min walk<br>Tsukiji-shijo Stn (Oedo Line) 5 min walk','<a href="tel:03-6684-1095">03-6684-1095</a>','7:00 am – 10:00 pm<br><span style="font-size:.78rem;color:var(--text-light);">Open daily</span>','From ¥4,500 / person (tax incl.)','Japanese · English'],
+    mapBtn:'📍 Open in Google Maps →',
+    rbH3:'Reserve a Table',
+    rbP:'Limited counter seating — advance reservation strongly recommended. Book online or call us directly.',
+    rbBtn1:'Reserve Online',rbBtn2:'Call \u00a003-6684-1095',
+    rbNote:'※ Online reservations available 24 hours<br>※ Phone reservations 7:00 am – 10:00 pm<br>※ Group bookings — please call',
+    footerSub:'Higashi-Ginza Tsukiji · Tokyo',
+    footerLinks:['About Us','Menu','Our Features','Information','Reservations','Contact'],
+    copy1:'© 2026 WAGYU SUKIYAKI 極〜GOKU〜. All Rights Reserved.',
+    copy2:'3-17-10 Tsukiji, BANHOTEL 1F, Chuo-ku, Tokyo \u00a0|\u00a0 TEL 03-6684-1095'
+  }
+};
+
+// ── Apply language ──
+function setLang(lang){
+  var t=T[lang];
+  document.documentElement.lang=lang;
+
+  // lang buttons
+  document.getElementById('btnJa').classList.toggle('active',lang==='ja');
+  document.getElementById('btnEn').classList.toggle('active',lang==='en');
+
+  // nav logo
+  var logos=document.querySelectorAll('.nav-logo');
+  for(var i=0;i<logos.length;i++) logos[i].textContent=t.logo;
+
+  // nav links (desktop + drawer)
+  var navAs=document.querySelectorAll('.nav-links a');
+  for(var i=0;i<navAs.length;i++) navAs[i].textContent=t.nav[i%5];
+  var drawerAs=document.querySelectorAll('.drawer-nav a');
+  for(var i=0;i<drawerAs.length;i++) drawerAs[i].textContent=t.nav[i];
+
+  // nav reserve btn
+  var navBtn=document.querySelector('.nav-btn');
+  if(navBtn) navBtn.textContent=t.navBtn;
+
+  // floating
+  var fl=document.querySelector('.floating');
+  if(fl) fl.textContent=t.floatBtn;
+
+  // hero
+  var heroSub=document.querySelector('.hero-sub');
+  if(heroSub) heroSub.innerHTML=t.heroSub;
+  var heroCta=document.querySelector('.hero-cta a');
+  if(heroCta) heroCta.textContent=t.heroCta;
+
+  // banner
+  var bps=document.querySelectorAll('.banner-text p');
+  for(var i=0;i<bps.length;i++) bps[i].textContent=t.b[i];
+
+  // about
+  si('about-label',t.aboutLabel);
+  ih('about-title',t.aboutTitle);
+  si('about-p1',t.aboutP1);
+  si('about-p2',t.aboutP2);
+  si('about-q',t.aboutQ);
+
+  // reserve section
+  si('res-label',t.resLabel);
+  si('res-title',t.resTitle);
+  si('res-body',t.resBody);
+  si('res-btn1',t.resBtn1);
+  si('res-btn2',t.resBtn2);
+
+  // menu
+  si('menu-label',t.menuLabel);
+  si('menu-title',t.menuTitle);
+  si('menu-body',t.menuBody);
+  si('menu-note',t.menuNote);
+  var incLabel=document.querySelector('.menu-includes-label');
+  if(incLabel) incLabel.textContent=t.incLabel;
+  var incLis=document.querySelectorAll('.menu-includes li');
+  for(var i=0;i<incLis.length;i++) incLis[i].textContent=t.inc[i];
+  // menu card names, tax label & badge
+  for(var i=0;i<4;i++){
+    si('mname'+i, t.menuItems[i]);
+    si('mtax'+i, t.menuTax);
+  }
+  var fc=document.getElementById('featured-card');
+  if(fc) fc.setAttribute('data-badge', t.badgeText);
+
+  // features
+  si('feat-label',t.featLabel);
+  si('feat-title',t.featTitle);
+  var fhs=document.querySelectorAll('.feat h3');
+  var fps=document.querySelectorAll('.feat p');
+  for(var i=0;i<fhs.length;i++){ fhs[i].textContent=t.feat[i].h; fps[i].textContent=t.feat[i].p; }
+
+  // instagram
+  si('ig-label',t.igLabel);
+  si('ig-title',t.igTitle);
+  si('ig-body',t.igBody);
+  si('ig-btn-text',t.igBtn);
+
+  // access
+  si('acc-label',t.accLabel);
+  si('acc-title',t.accTitle);
+  var ths=document.querySelectorAll('.info-table th');
+  var tds=document.querySelectorAll('.info-table td');
+  for(var i=0;i<ths.length;i++) ths[i].textContent=t.th[i];
+  for(var i=0;i<tds.length;i++) tds[i].innerHTML=t.td[i];
+  var mapBtn=document.querySelector('.map-btn');
+  if(mapBtn) mapBtn.textContent=t.mapBtn;
+
+  // reserve box
+  si('rb-h3',t.rbH3);
+  si('rb-p',t.rbP);
+  si('rb-btn1',t.rbBtn1);
+  ih('rb-btn2',t.rbBtn2);
+  ih('rb-note',t.rbNote);
+
+  // footer
+  var fsub=document.querySelector('.footer-sub');
+  if(fsub) fsub.textContent=t.footerSub;
+  var fls=document.querySelectorAll('.footer-links a');
+  for(var i=0;i<fls.length;i++) fls[i].textContent=t.footerLinks[i];
+  var fcs=document.querySelectorAll('.footer-copy');
+  if(fcs[0]) fcs[0].textContent=t.copy1;
+  if(fcs[1]) fcs[1].innerHTML=t.copy2;
+}
+
+function si(id,text){ var el=document.getElementById(id); if(el) el.textContent=text; }
+function ih(id,html){ var el=document.getElementById(id); if(el) el.innerHTML=html; }
+</script>
+</body>
+</html>
